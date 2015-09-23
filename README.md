@@ -30,6 +30,10 @@ Documentation
 More information can be found in the wiki for this project: https://github.com/DirectOutput/TeensyStripController/wiki
 
 
+Firmware Downloads
+------------------
+Compiled firmware files can be downloaded from: https://github.com/DirectOutput/TeensyStripController/releases
+
 License
 -------
 See License file in the repo.
