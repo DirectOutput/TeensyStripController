@@ -1,2 +1,35 @@
-# TeensyStripController
-Firmware for a Teensy 3.1 or later based controller for WS2811/WS2812 based ledstrips. Fully compative with the Direct Output Framework.
+TeensyStripController
+=====================
+
+Firmware for a Teensy 3.1 or later to control WS2811/WS2812 based ledstrips. Fully compatible with the DirectOutput Framework.
+
+![Teensy 3.1 with OctoWS2811 adaptor](http://www.pjrc.com/store/octo28_adaptor_6.jpg)
+
+
+Hardware
+--------
+This code has been designed for Teensy 3.1 or later. For easy installation of the ledstrips is is highly recommended to get a OctoWS2811 adaptor board as well. 
+Both boards are available at http://pjrc.com/store/ 
+For the Teensy be sure to get at least a Teensy 3.1, preferably the version which has the pins already soldered in.
+
+Ledstrips using the WS2812 are widely available on Ebay, AliExpress, Adafruit (Neopixels) and many other sources. Be careful when ordering ledstrips. After all these are low cost china products with als the pros and cons these products have.
+
+Make sure your power supply is strong enough. Every led needs up to 60ma and having strips with a lot of leds can easily drive you into high power requirements (e.g. 1m of ledstrip with 60 leds needs a PSU delivering at least 3.6A). Use think wires for the power connections to the ledstrips and be sure to inject power after every 100-200 leds at least (otherwise the ledstrip can get pretty hot which can be a fire hazard and which is bad for the lifetime of the leds and quality of the displayed colors).
+
+Software
+--------
+The code of this project can be compiled and installed on the Teensy with the Arduino IDE with installed Teensyduino extensions.
+
+Currently the firmware supports up to 1100 leds on each of the  output 8 channels. Keep in mind that every led on a strip takes a little bit of time to update. To get some etimate on the max framerate you can achieve take the number of leds on your longest connected strip and multiply by 30microseconds. This will give you the approx time technically required for a single update of the strip. If you divide 1000000 by the result of the first calculation, you get the max update frequency (real update frequency will be a bit lower). Example: 500 (leds) * 30 microsconds= 15000 microseconds. 1000000 / 15000 = 66 Hz max update frequency (try to stay well above 30hz with your setup).
+
+
+To drive the controller at least DirectOutput Framework R3 is required. Check out the DOF docu page on _BuiltIn Output controllers_ for details on the configuration of DOF for the TeensyStrip controller.
+
+Documentation
+-------------
+More information can be found in the wiki for this project: https://github.com/DirectOutput/TeensyStripController/wiki
+
+
+License
+-------
+See License file in the repo.
