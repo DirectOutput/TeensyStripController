@@ -1,5 +1,5 @@
-TeensyStripController
-=====================
+TeensyStripController 1.02
+==========================
 
 Firmware for a Teensy 3.1 or later to control WS2811/WS2812 based ledstrips. Fully compatible with the DirectOutput Framework.
 
