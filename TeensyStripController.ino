@@ -3,7 +3,7 @@
  ** ----------------------
  ** 
  ** This Sketch turns a Teensy 3.1, 3.2 or later into a controller for WS2811/WS2812 based led strips.
- ** This strip controller was originally designed supported by the Direct Output Framework, but since 
+ ** This strip controller was originally designed for use with the Direct Output Framework, but since 
  ** the communication protocol is simple and communication uses the virtual com port of the Teensy
  ** it should be easy to controll the strips from other applications as well.
  ** 
@@ -39,15 +39,25 @@
 //Definiton of Major and Minor part of the firmware version. This value can be received using the V command.
 //If something is changed in the code the number should be increased.
 #define FirmwareVersionMajor 1
-#define FirmwareVersionMinor 1
+#define FirmwareVersionMinor 2
 
 //Defines the max number of leds which is allowed per ledstrip.
-//This number is fine for Teensy 3.2 & 3.1. For newer Teensy versions (they dont exists yet) it might be possible to increase this number.
+//This number is fine for Teensy 3.2, 3.1. For newer Teensy versions (they dont exists yet) it might be possible to increase this number.
 #define MaxLedsPerStrip 1100
+
+//Defines the Pinnumber to which the built in led of the Teensy is connected.
+//For Teensy 3.2, 3.1 this is pin 13, if you use a newer Teensy version (not available at the time of writing) you might need to change this number.
+#define LedPin 13
+
 
 //Memory buffers for the OctoWS2811 lib
 DMAMEM int displayMemory[MaxLedsPerStrip*6];
 int drawingMemory[MaxLedsPerStrip*6];
+
+//Variable used to control the blinking and flickering of the led of the Teensy
+elapsedMillis BlinkTimer;
+int BlinkMode;
+elapsedMillis BlinkModeTimeoutTimer;
 
 //Config definition for the OctoWS2811 lib
 const int config = WS2811_RGB | WS2811_800kHz; //Dont change the color order (even if your strip are GRB). DOF takes care of this issue (see config of ledstrip toy)
@@ -65,6 +75,10 @@ void setup() {
   leds.begin();
   leds.show();
 
+  //Initialize the led pin
+  pinMode(LedPin,OUTPUT);
+
+  SetBlinkMode(0);
 }
 
 //Main loop of the programm gets called again and again.
@@ -109,8 +123,73 @@ void loop() {
         Nack();
       break;
     }
-  }
+
+   
+    SetBlinkMode(1);
+    
+    
+  } 
+  Blink();
 }
+
+
+//Sets the mode for the blinking of the led
+void SetBlinkMode(int Mode) {
+  BlinkMode=Mode;
+  BlinkModeTimeoutTimer=0;
+}
+
+//Controls the blinking of the led
+void Blink() {
+  switch(BlinkMode) {
+    case 0:
+      //Blinkmode 0 is only active after the start of the Teensy until the first command is received.
+      if(BlinkTimer<1500) {
+        digitalWrite(LedPin,0);
+      } else if(BlinkTimer<1600) {
+        digitalWrite(LedPin,1);
+      } else {
+        BlinkTimer=0;
+        digitalWrite(LedPin,0);
+      }
+    break;
+    case 1:
+      //Blinkmode 1 is activated when the Teensy receives a command
+      //Mode expires 500ms after the last command has been received resp. mode has been set
+      if(BlinkTimer>30) {
+        BlinkTimer=0;
+        digitalWrite(LedPin,!digitalRead(LedPin));
+      }
+      if(BlinkModeTimeoutTimer>500) {
+        SetBlinkMode(2);
+      }
+    break;   
+    case 2:
+      //Blinkmode 2 is active while the Teensy is waiting for more commands
+      if(BlinkTimer<1500) {
+        digitalWrite(LedPin,0);
+      } else if(BlinkTimer<1600) {
+        digitalWrite(LedPin,1);
+      } else if(BlinkTimer<1700) {
+        digitalWrite(LedPin,0);
+      } else if(BlinkTimer<1800) {
+        digitalWrite(LedPin,1);
+      }else {
+        BlinkTimer=0;
+        digitalWrite(LedPin,0);
+      }
+      default:
+      //This should never be active
+      //The code is only here to make it easier to determine if a wrong Blinkcode has been set
+      if(BlinkTimer>2000) {
+        BlinkTimer=0;
+        digitalWrite(LedPin,!digitalRead(LedPin));
+      }
+      break;
+  }
+  
+}
+
 
 //Outputs the data in the ram to the ledstrips
 void OutputData() {
