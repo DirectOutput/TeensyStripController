@@ -31,7 +31,22 @@
     AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
     LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-    THE SOFTWARE. 
+    THE SOFTWARE.
+
+  Required Connections
+  --------------------
+    pin 2:  LED Strip #1    OctoWS2811 drives 8 LED Strips.
+    pin 14: LED strip #2    All 8 are the same length.
+    pin 7:  LED strip #3
+    pin 8:  LED strip #4    A 100 ohm resistor should used
+    pin 6:  LED strip #5    between each Teensy pin and the
+    pin 20: LED strip #6    wire to the LED strip, to minimize
+    pin 21: LED strip #7    high frequency ringining & noise.
+    pin 5:  LED strip #8
+    pin 15 & 16 - Connect together, but do not use
+    pin 4 - Do not use
+    pin 3 - Do not use as PWM.  Normal use is ok.
+     
 */
 
 #include "OctoWS2811Ext.h" //A slightly hacked version of the OctoWS2811 lib which allows for dynamic setting of the number of leds is used.
@@ -39,7 +54,7 @@
 //Definiton of Major and Minor part of the firmware version. This value can be received using the V command.
 //If something is changed in the code the number should be increased.
 #define FirmwareVersionMajor 1
-#define FirmwareVersionMinor 2
+#define FirmwareVersionMinor 3
 
 //Defines the max number of leds which is allowed per ledstrip.
 //This number is fine for Teensy 3.2, 3.1. For newer Teensy versions (they dont exists yet) it might be possible to increase this number.
@@ -49,6 +64,8 @@
 //For Teensy 3.2, 3.1 this is pin 13, if you use a newer Teensy version (not available at the time of writing) you might need to change this number.
 #define LedPin 13
 
+// Defines the Pinnumber for the test button which is low when pressed
+#define TestPin 17
 
 //Memory buffers for the OctoWS2811 lib
 DMAMEM int displayMemory[MaxLedsPerStrip*6];
@@ -64,7 +81,7 @@ const int config = WS2811_RGB | WS2811_800kHz; //Dont change the color order (ev
 
 OctoWS2811Ext leds(MaxLedsPerStrip, displayMemory, drawingMemory, config);
 
-word configuredStripLength=64;
+word configuredStripLength=144;
 
 //Setup of the system. Is called once on startup.
 void setup() {
@@ -79,6 +96,13 @@ void setup() {
   pinMode(LedPin,OUTPUT);
 
   SetBlinkMode(0);
+
+  //Initialize and find value of the test pin
+  pinMode(TestPin,INPUT_PULLUP);  
+  if (! digitalRead(TestPin)) { 
+    // run test if button is grounded
+    Test();
+  }
 }
 
 //Main loop of the programm gets called again and again.
@@ -319,5 +343,47 @@ word ReceiveWord() {
   
   return wordValue;
 }
-   
 
+// Colors for testing - assumes WS2812 color order of G, R, B
+/*
+#define RED    0x00FF00
+#define GREEN  0xFF0000
+#define BLUE   0x0000FF
+#define YELLOW 0xFFFF00
+#define PINK   0x10FF88
+#define ORANGE 0x45FF00
+#define WHITE  0xFFFFFF
+#define BLACK  0x000000
+*/
+
+// Less intense colors for testing - assumes WS2812 color order of G, R, B
+#define RED    0x003F00
+#define GREEN  0x3F0000
+#define BLUE   0x00003F
+#define YELLOW 0x3F3F00
+#define PINK   0x043F22
+#define ORANGE 0x0B3F00
+#define WHITE  0x3F3F3F
+#define BLACK  0x000000
+
+void Test() {
+  int microsec = 3000000;  // change them all in 3 seconds
+
+  ColorWipe(RED, microsec);
+  ColorWipe(GREEN, microsec);
+  ColorWipe(BLUE, microsec);
+  ColorWipe(YELLOW, microsec);
+  ColorWipe(PINK, microsec);
+  ColorWipe(ORANGE, microsec);
+  ColorWipe(WHITE, microsec);
+  ColorWipe(BLACK, microsec);
+}
+
+void ColorWipe(int color, int wait)
+{
+  for (int i=0; i < leds.numPixels(); i++) {
+    leds.setPixel(i, color);
+  }
+  leds.show();
+  delayMicroseconds(wait);
+}   
