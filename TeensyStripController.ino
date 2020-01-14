@@ -95,14 +95,14 @@ void setup() {
   //Initialize the led pin
   pinMode(LedPin,OUTPUT);
 
-  SetBlinkMode(0);
-
   //Initialize and find value of the test pin
   pinMode(TestPin,INPUT_PULLUP);  
   if (! digitalRead(TestPin)) { 
     // run test if button is grounded
     Test();
   }
+  
+  SetBlinkMode(0);
 }
 
 //Main loop of the programm gets called again and again.
@@ -384,6 +384,13 @@ void ColorWipe(int color, int wait)
   for (int i=0; i < leds.numPixels(); i++) {
     leds.setPixel(i, color);
   }
+
+  // wait before turning on LEDs and also turn on indicator LED
+  delayMicroseconds(100000);
+  digitalWrite(LedPin,1);
   leds.show();
+
+  // wait for desginated timeout and then turn off indicator LED
   delayMicroseconds(wait);
+  digitalWrite(LedPin,0);
 }   
