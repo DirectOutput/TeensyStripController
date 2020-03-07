@@ -357,14 +357,15 @@ word ReceiveWord() {
 */
 
 // Less intense colors for testing - assumes WS2812 color order of G, R, B
-#define RED    0x003F00
-#define GREEN  0x3F0000
-#define BLUE   0x00003F
-#define YELLOW 0x3F3F00
-#define PINK   0x043F22
-#define ORANGE 0x0B3F00
-#define WHITE  0x3F3F3F
+#define RED    0x001600
+#define GREEN  0x160000
+#define BLUE   0x000016
+#define YELLOW 0x141000
+#define PINK   0x001209
+#define ORANGE 0x041000
+#define WHITE  0x101010
 #define BLACK  0x000000
+
 
 void Test() {
   int microsec = 3000000;  // change them all in 3 seconds
@@ -380,7 +381,7 @@ void Test() {
 }
 
 void ColorWipe(int color, int wait)
-{
+{   
   for (int i=0; i < leds.numPixels(); i++) {
     leds.setPixel(i, color);
   }
