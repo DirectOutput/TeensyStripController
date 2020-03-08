@@ -1,16 +1,16 @@
-TeensyStripController 1.02
+TeensyStripController 1.03
 ==========================
 
-Firmware for a Teensy 3.1 or later to control WS2811/WS2812 based ledstrips. Fully compatible with the DirectOutput Framework.
+Firmware for a Teensy 3.1 or Teensy 3.2 to control WS2811/WS2812 based ledstrips. Fully compatible with the DirectOutput Framework.
 
 ![Teensy 3.1 with OctoWS2811 adaptor](http://www.pjrc.com/store/octo28_adaptor_6.jpg)
 
 
 Hardware
 --------
-This code has been designed for Teensy 3.1 or later. For easy installation of the ledstrips is is highly recommended to get a OctoWS2811 adaptor board as well. 
+This code has been designed for Teensy 3.1 or Teensy 3.2. For easy installation of the ledstrips is is highly recommended to get a OctoWS2811 adaptor board as well. 
 Both boards are available at http://pjrc.com/store/ 
-For the Teensy be sure to get at least a Teensy 3.1, preferably the version which has the pins already soldered in.
+For the Teensy be sure to get a Teensy 3.2, preferably the version which has the pins already soldered in.
 
 Ledstrips using the WS2812 are widely available on Ebay, AliExpress, Adafruit (Neopixels) and many other sources. Be careful when ordering ledstrips. After all these are low cost china products with all the pros and cons these products have.
 
@@ -23,6 +23,15 @@ The code of this project can be compiled and installed on the Teensy with the Ar
 Currently the firmware supports up to 1100 leds on each of the  output 8 channels. Keep in mind that every led on a strip takes a little bit of time to update. To get some etimate on the max framerate you can achieve take the number of leds on your longest connected strip and multiply by 30microseconds. This will give you the approx time technically required for a single update of the strip. If you divide 1000000 by the result of the first calculation, you get the max update frequency (real update frequency will be a bit lower). Example: 500 (leds) * 30 microsconds= 15000 microseconds. 1000000 / 15000 = 66 Hz max update frequency (try to stay well above 30hz with your setup).
 
 To drive the controller at least DirectOutput Framework R3 is required. Check out the DOF docu page on _BuiltIn Output controllers_ for details on the configuration of DOF for the TeensyStrip controller.
+
+Integrated Product
+------------------
+
+The Oak Micros Pinball Addressable LEDs (PAL) board is a pre-built integrated product that can be used to control up to 8 addressable LEDs strips. It uses the Teensy 3.2 and the latest software from this site. It includes a pushbutton which can be used to initiate a LED test when powered up and has a pluggable screw connector for power and 6 LED connections. The remaining two other LED connections are available on an optional 0.1" header.
+
+![Oak Micros PAL board](http://vpforums.org/imghost/24/pal_board.jpg)
+
+For further information read the [user guide](https://drive.google.com/open?id=1Zk_5RxsWX4VIPhT4XtGlj1rNlBTug39a) and see [this thread](https://www.vpforums.org/index.php?showtopic=43482) on VPForums.org.
 
 Documentation
 -------------
