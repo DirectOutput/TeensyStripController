@@ -56,8 +56,20 @@
 
 class OctoWS2811Ext {
 public:
-	OctoWS2811Ext(uint32_t numPerStrip, void *frameBuf, void *drawBuf, uint8_t config = WS2811_GRB);
-	void begin(void);
+#if defined(__IMXRT1062__)
+  // Teensy 4.x can use any arbitrary group of pins!
+  OctoWS2811Ext(uint32_t numPerStrip, void *frameBuf, void *drawBuf, uint8_t config = WS2811_GRB, uint8_t numPins = 8, const uint8_t *pinList = defaultPinList);
+  void begin(uint32_t numPerStrip, void *frameBuf, void *drawBuf, uint8_t config = WS2811_GRB, uint8_t numPins = 8, const uint8_t *pinList = defaultPinList);
+  int numPixels(void);
+#else
+  // Teensy 3.x is fixed to 8 pins: 2, 14, 7, 8, 6, 20, 21, 5
+  OctoWS2811Ext(uint32_t numPerStrip, void *frameBuf, void *drawBuf, uint8_t config = WS2811_GRB);
+  void begin(uint32_t numPerStrip, void *frameBuf, void *drawBuf, uint8_t config = WS2811_GRB);
+  int numPixels(void) {
+    return stripLen * 8;
+  }
+#endif
+  void begin(void);
 
 	void setStripLength(uint16_t length);
 	void setPixel(uint32_t num, int color);
@@ -69,9 +81,6 @@ public:
 	void show(void);
 	int busy(void);
 
-	int numPixels(void) {
-		return stripLen * 8;
-	}
 	int color(uint8_t red, uint8_t green, uint8_t blue) {
 		return (red << 16) | (green << 8) | blue;
 	}
@@ -84,6 +93,7 @@ private:
 	static uint8_t params;
 	static DMAChannel dma1, dma2, dma3;
 	static void isr(void);
+  static uint8_t defaultPinList[8];
 };
 
 #endif
