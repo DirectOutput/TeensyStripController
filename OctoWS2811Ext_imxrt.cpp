@@ -373,17 +373,10 @@ int OctoWS2811Ext::busy(void)
   return 0;
 }
 
-// For Teensy 4.x, the pixel data is stored in ordinary RGB format.  Translation
-// from 24 bit color to GPIO bitmasks is done on-the-fly by fillbits().  This is
-// different from Teensy 3.x, where the data was stored as bytes to write directly
-// to the GPIO output register.
-
-
 void OctoWS2811Ext::setStripLength(uint16_t length)
 {
-	stripLen=length;
+   stripLen=length;
 }
-
 
 // For Teensy 4.x, the pixel data is stored in ordinary RGB format.  Translation
 // from 24 bit color to GPIO bitmasks is done on-the-fly by fillbits().  This is
