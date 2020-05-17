@@ -56,7 +56,9 @@
 #define FirmwareVersionMajor 1
 #define FirmwareVersionMinor 3
 
+//For Teensy 4.0 you can define the nuber of ouput Pins - 8 should be good (for 3.1/3.2 this is only used for calculation and schould not changed)
 const int numPins = 8;
+//for tesnsy 4.0 you can change the standard port (schould not be done) - Not used for 3.1/3.2
 byte pinList[numPins] = {2, 14, 7, 8, 6, 20, 21, 5};
 
 //Defines the max number of leds which is allowed per ledstrip.
@@ -82,7 +84,11 @@ elapsedMillis BlinkModeTimeoutTimer;
 //Config definition for the OctoWS2811 lib
 const int config = WS2811_RGB | WS2811_800kHz; //Dont change the color order (even if your strip are GRB). DOF takes care of this issue (see config of ledstrip toy)
 
-OctoWS2811Ext leds(MaxLedsPerStrip, displayMemory, drawingMemory, config, numPins, pinList);
+#if defined(__IMXRT1062__)
+  OctoWS2811Ext leds(MaxLedsPerStrip, displayMemory, drawingMemory, config, numPins, pinList);
+#else
+  OctoWS2811Ext leds(MaxLedsPerStrip, displayMemory, drawingMemory, config);
+#endif
 
 word configuredStripLength=144;
 
