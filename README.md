@@ -1,7 +1,7 @@
-TeensyStripController 1.03
+TeensyStripController 1.04
 ==========================
 
-Firmware for a Teensy 3.1 or Teensy 3.2 to control WS2811/WS2812 based ledstrips. Fully compatible with the DirectOutput Framework.
+Firmware for a Teensy 3.1/3.2 or Teensy 4.0 to control WS2811/WS2812 based ledstrips. Fully compatible with the DirectOutput Framework.
 
 ![Teensy 3.1 with OctoWS2811 adaptor](http://www.pjrc.com/store/octo28_adaptor_6.jpg)
 

@@ -54,7 +54,7 @@
 //Definiton of Major and Minor part of the firmware version. This value can be received using the V command.
 //If something is changed in the code the number should be increased.
 #define FirmwareVersionMajor 1
-#define FirmwareVersionMinor 3
+#define FirmwareVersionMinor 4
 
 //For Teensy 4.0 you can define the nuber of ouput Pins - 8 should be good (for 3.1/3.2 this is only used for calculation and schould not changed)
 const int numPins = 8;
