@@ -54,7 +54,12 @@
 //Definiton of Major and Minor part of the firmware version. This value can be received using the V command.
 //If something is changed in the code the number should be increased.
 #define FirmwareVersionMajor 1
-#define FirmwareVersionMinor 3
+#define FirmwareVersionMinor 4
+
+//For Teensy 4.0 you can define the nuber of ouput Pins - 8 should be good (for 3.1/3.2 this is only used for calculation and schould not changed)
+const int numPins = 8;
+//for tesnsy 4.0 you can change the standard port (schould not be done) - Not used for 3.1/3.2
+byte pinList[numPins] = {2, 14, 7, 8, 6, 20, 21, 5};
 
 //Defines the max number of leds which is allowed per ledstrip.
 //This number is fine for Teensy 3.2, 3.1. For newer Teensy versions (they dont exists yet) it might be possible to increase this number.
@@ -68,8 +73,8 @@
 #define TestPin 17
 
 //Memory buffers for the OctoWS2811 lib
-DMAMEM int displayMemory[MaxLedsPerStrip*6];
-int drawingMemory[MaxLedsPerStrip*6];
+DMAMEM int displayMemory[MaxLedsPerStrip * numPins * 3 / 4];
+int drawingMemory[MaxLedsPerStrip * numPins * 3 / 4];
 
 //Variable used to control the blinking and flickering of the led of the Teensy
 elapsedMillis BlinkTimer;
@@ -79,7 +84,11 @@ elapsedMillis BlinkModeTimeoutTimer;
 //Config definition for the OctoWS2811 lib
 const int config = WS2811_RGB | WS2811_800kHz; //Dont change the color order (even if your strip are GRB). DOF takes care of this issue (see config of ledstrip toy)
 
-OctoWS2811Ext leds(MaxLedsPerStrip, displayMemory, drawingMemory, config);
+#if defined(__IMXRT1062__)
+  OctoWS2811Ext leds(MaxLedsPerStrip, displayMemory, drawingMemory, config, numPins, pinList);
+#else
+  OctoWS2811Ext leds(MaxLedsPerStrip, displayMemory, drawingMemory, config);
+#endif
 
 word configuredStripLength=144;
 
@@ -141,6 +150,10 @@ void loop() {
       case 'M':
         //Get max number of leds per strip  
         SendMaxNumberOfLeds();
+        break;
+      case 'T':
+        //initiate Test over serial  
+        Test();
         break;
       default:
         // no unknown commands allowed. Send NACK (N)
