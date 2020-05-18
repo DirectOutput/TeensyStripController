@@ -319,7 +319,7 @@ void OctoWS2811Ext::show(void)
   TMR4_CNTR2 = comp1load[0] + 1;
 
   // wait for WS2812 reset
-  while (micros() - update_begin_micros < numbytes * 10 + 300) ;
+  while (micros() - update_begin_micros < numbytes * 10 + 50) ;
 
   // start everything running!
   TMR4_ENBL = enable | 7;
@@ -369,7 +369,7 @@ void OctoWS2811Ext::isr(void)
 int OctoWS2811Ext::busy(void)
 {
   if (!dma3.complete()) ; // DMA still running
-  if (micros() - update_begin_micros < numbytes * 10 + 300) return 1; // WS2812 reset
+  if (micros() - update_begin_micros < numbytes * 10 + 50) return 1; // WS2812 reset
   return 0;
 }
 
