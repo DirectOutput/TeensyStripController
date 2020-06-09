@@ -97,11 +97,7 @@ void setup() {
 
   //Initialize and find value of the test pin
   pinMode(TestPin,INPUT_PULLUP);  
-  if (! digitalRead(TestPin)) { 
-    // run test if button is grounded
-    Test();
-  }
-  
+ 
   SetBlinkMode(0);
 }
 
@@ -109,6 +105,12 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
 
+ //Check if testpin is pressed 
+ if (! digitalRead(TestPin)) { 
+    // run test if button is grounded
+    Test();
+  }
+ 
   //Check if data is available
   if (Serial.available()) {
     
