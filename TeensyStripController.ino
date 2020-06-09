@@ -370,7 +370,7 @@ word ReceiveWord() {
 
 
 void Test() {
-  int microsec = 3000000;  // change them all in 3 seconds
+  int microsec = 1000000;  // change them each second
 
   ColorWipe(RED, microsec);
   ColorWipe(GREEN, microsec);
