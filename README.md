@@ -28,7 +28,10 @@ To drive the controller at least DirectOutput Framework R3 is required. Check ou
 Integrated Product
 ------------------
 
-For people not very comfortable with lots of wires, stripping and crimping, GermanGamingSupplies (https://germangamingsupplies.com/Teensy-Control-Box_1)developed a nice little Box that makes it much more easy and convenient to install it into your VPins.
+For people not very comfortable with lots of wires, stripping and crimping, GermanGamingSupplies  developed a nice little Box that makes it much more easy and convenient to install it into your VPins.
+Go to Product: ![Link](https://germangamingsupplies.com/Teensy-Control-Box_1)
+
+![Teensy Control Box](https://germangamingsupplies.com/media/image/product/115/lg/teensy-control-box_1.jpg)
 
 Documentation
 -------------
