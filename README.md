@@ -1,14 +1,15 @@
-TeensyStripController 1.03
+TeensyStripController 1.04
 ==========================
 
-Firmware for a Teensy 3.1 or Teensy 3.2 to control WS2811/WS2812 based ledstrips. Fully compatible with the DirectOutput Framework.
+Firmware for a Teensy 3.1, 3.2 or 4.0 to control WS2811/WS2812 based ledstrips. Fully compatible with the DirectOutput Framework.
 
 ![Teensy 3.1 with OctoWS2811 adaptor](http://www.pjrc.com/store/octo28_adaptor_6.jpg)
 
 
 Hardware
 --------
-This code has been designed for Teensy 3.1 or Teensy 3.2. For easy installation of the ledstrips is is highly recommended to get a OctoWS2811 adaptor board as well. 
+This code has been designed for Teensy 3.1, 3.2. or Teensy 4.0 For easy installation of the ledstrips is is highly recommended to get a OctoWS2811 adaptor board as well.
+
 Both boards are available at http://pjrc.com/store/ 
 For the Teensy be sure to get a Teensy 3.2, preferably the version which has the pins already soldered in.
 
@@ -27,11 +28,10 @@ To drive the controller at least DirectOutput Framework R3 is required. Check ou
 Integrated Product
 ------------------
 
-The Oak Micros Pinball Addressable LEDs (PAL) board is a pre-built integrated product that can be used to control up to 8 addressable LEDs strips. It uses the Teensy 3.2 and the latest software from this site. It includes a pushbutton which can be used to initiate a LED test when powered up and has a pluggable screw connector for power and 6 LED connections. The remaining two other LED connections are available on an optional 0.1" header.
+For people not very comfortable with lots of wires, stripping and crimping, GermanGamingSupplies  developed a nice little Box that makes it much more easy and convenient to install it into your VPins.
+Go to Product: ![Link](https://germangamingsupplies.com/Teensy-Control-Box_1)
 
-![Oak Micros PAL board](http://vpforums.org/imghost/24/pal_board.jpg)
-
-For further information read the [user guide](https://drive.google.com/open?id=1Zk_5RxsWX4VIPhT4XtGlj1rNlBTug39a) and see [this thread](https://www.vpforums.org/index.php?showtopic=43482) on VPForums.org.
+![Teensy Control Box](https://germangamingsupplies.com/media/image/product/115/lg/teensy-control-box_1.jpg)
 
 Documentation
 -------------
